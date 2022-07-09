@@ -5,6 +5,9 @@ let index = {
         $("#btn-save").on("click", ()=>{
             this.save();
         });
+        $("#btn-update").on("click", ()=>{
+            this.update();
+        });
     },
 
     save: function () {
@@ -29,7 +32,37 @@ let index = {
             contentType: "application/json; charset=utf8", // body 데이터가 어떤 타입인지(MIME 타입)
             dataType: "json" // 서버에 요청을 해서 응답이 왔을 때 기본적으로 모든것이 문자열(그런데 생긴게 json 형태? => javascript 오브젝트로 변경)
         }).done(function(resp) { // 응답 결과가 성공이면 done
-            alert("회원가입이 완료되었습니다.");
+            if(resp.status === 500) {
+                alert("회원가입에 실패하였습니다.");
+            } else {
+                alert("회원가입이 완료되었습니다.");
+                location.href="/"
+            }
+        }).fail(function(error) { // 응답 결과가 실패면 fail
+            alert(JSON.stringify(error));
+        });
+    },
+
+    update: function () {
+        // alert("uesr의 save 함수 호출");
+        let data = {
+            id: $("#id").val(),
+            username: $("#username").val(),
+            password: $("#password").val(),
+            email: $("#email").val()
+        };
+
+        $.ajax({
+            // 회원가입 수행 요청
+            type: "PUT",
+            url: "/user",
+            data: JSON.stringify(data), // http body 데이터
+            // console.log(data); => 자바스크립트 오브젝트
+            // console.log(JSON.stringify(data)); => JSON 문자열
+            contentType: "application/json; charset=utf8", // body 데이터가 어떤 타입인지(MIME 타입)
+            dataType: "json" // 서버에 요청을 해서 응답이 왔을 때 기본적으로 모든것이 문자열(그런데 생긴게 json 형태? => javascript 오브젝트로 변경)
+        }).done(function(resp) { // 응답 결과가 성공이면 done
+            alert("회원 수정이 완료되었습니다.");
             // console.log(resp);
             location.href="/"
         }).fail(function(error) { // 응답 결과가 실패면 fail

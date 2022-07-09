@@ -41,7 +41,7 @@ public class User {
 
 
     // username이 null이 될 수 없고, 길이가 30자 이하여야 함.
-    @Column(nullable = false, length = 30, unique = true)
+    @Column(nullable = false, length = 100, unique = true)
     private String username; // 사용자 이름
 
 
@@ -60,6 +60,8 @@ public class User {
     @Enumerated(EnumType.STRING)
     private RoleType role; // role : 권한(ADMIN, USER, MANAGER...) 오타실수를 방지하기 위해 Enum을 쓰는게 좋다.
 
+
+    private String oauth; // kakao, google 등
 
     // @CreationTimestamp : 시간이 자동입력 됨
     // 내가 직접 시간을 넣으려면 TimeStamp.valueOf(LocalDateTime.now())

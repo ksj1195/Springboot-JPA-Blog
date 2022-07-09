@@ -24,8 +24,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class GlobalExceptionHandler {
 
     // IllegalArgumentException이 발생을 하면 Exception에 대한 에러를 해당 함수에 전달.
-    @ExceptionHandler(value = IllegalArgumentException.class)
-    public ResponseDto<String> handleAgumentException(IllegalArgumentException e) {
-        return new ResponseDto<String >(HttpStatus.INTERNAL_SERVER_ERROR.value(), e.getMessage());
+    @ExceptionHandler(value = Exception.class)
+    public ResponseDto<String> handleAgumentException(Exception e) {
+        return new ResponseDto<String >(HttpStatus.INTERNAL_SERVER_ERROR.value(), e.getMessage()); // 500 error
     }
 }

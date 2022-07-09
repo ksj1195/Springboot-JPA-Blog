@@ -1,5 +1,6 @@
 package com.cos.blog.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -48,8 +49,6 @@ public class Board {
     private String content; // 섬머노트 라이브러리 사용 => <html>태그가 섞여서 디자인되면 용량이 커짐
 
 
-    // 조회수 기본값 : 0(int는 홑따옴표 필요X)
-    @ColumnDefault("0")
     private int count; // 조회수
 
 
@@ -63,9 +62,11 @@ public class Board {
     // mappedBy : 연관관계의 주인이 아니다.(난 FK가 아니에요. DB에 컬럼을 만들지 마세요.)
     //            board를 select 할 때 join을 통해 값을 얻기위해서 필요한 것
     // reply 테이블의 board가 FK임.
-    @OneToMany(mappedBy = "board", fetch = FetchType.EAGER) // reply 클래스의 board 필드
+    @OneToMany(mappedBy = "board", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE) // reply 클래스의 board 필드
+    @JsonIgnoreProperties({"board"}) // 무한 참조 방지
+    @OrderBy("id desc") // 내림차순 정렬
     // 댓글은 하나일수도, 여러개일수도 있기 떄문에 List 사용
-    private List<Reply> reply;
+    private List<Reply> replys;
 
 
     // @CreationTimestamp : 시간이 자동입력 됨
